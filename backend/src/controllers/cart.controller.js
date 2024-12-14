@@ -1,4 +1,5 @@
 import { Cart } from "../models/cart.mode.js";
+import mongoose from "mongoose";
 
 
 
@@ -7,18 +8,31 @@ export const addToCart = async (req, res) => {
 
     try {
 
+      // const product = await Product.findById(productId).populate('category');
+
+      // if (!product) {
+      //   return res.status(404).json({
+      //     status: 'fail',
+      //     message: 'Product not found',
+      //   });
+      // }
+
         let cart = await Cart.findOne({ user });
 
         if (!cart) {
-            cart = Cart.create({
+            cart = await Cart.create({
                 user,
-                items : [{product : productId , quantity}]
+                items : [{product : productId ,
+                quantity,
+                
+                  
+                  }]
             })
         } else {
 
             const itemIndex = cart.items.findIndex((item) => item.product.toString() === productId);
             if(itemIndex > -1) {
-                cart.items[itemIndex].quantity +=quantity;
+                cart.items[itemIndex].quantity += quantity;
             } else {
                 cart.items.push({product : productId, quantity })
             }
@@ -43,7 +57,7 @@ export const productsInCart = async (req, res) => {
     const { userId } = req.params;
     
     try {
-        const cart = await Cart.findOne({ user : userId }).populate('items.product');
+        const cart = await Cart.findOne({ user : userId }).populate('items.product').populate('items.category');
 
         if (!cart) {
             return res.status(404).json({
@@ -92,6 +106,7 @@ export const deleteFromCart = async (req, res) => {
 
 
 export const deleteAllFromCart = async (req, res) => {
+  const { userId } = req.params;
     try {
         const cart = await Cart.findOne({ user: userId });
     

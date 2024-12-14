@@ -31,7 +31,7 @@ export const getProduct = async (req, res) => {
 
         const { productId } = req.params;
 
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate('category', { name : 1});
 
         //get comment of product if its not null
         const comments = await Comment.find({ product: productId });
