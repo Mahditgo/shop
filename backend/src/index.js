@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
-
+import path from 'path';
+import cors from 'cors';
+import helmet from 'helmet';
 
 import authRoutes from './Router/auth.route.js';
 import productRoutes from './Router/product.route.js';
@@ -10,14 +12,21 @@ import cartRoutes from './Router/cart.route.js';
 import orderRoutes from './Router/order.route.js';
 import adminRouter from './Router/admin.router.js';
 import { connectDB } from "./lib/db.js";
+import { fileURLToPath } from 'url';
 
 const app = express();
 dotenv.config();
 
-
+app.use(cors());
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Port
 const port = process.env.PORT || 5000;

@@ -44,7 +44,8 @@ export const signup = async (req, res) => {
             username,
             email,
             password: hashedPassword,
-            image
+            image,
+            role : 'user'
         });
 
         generateTokenAndSetCookie(newUser._id, res);
@@ -126,43 +127,6 @@ export async function authCheck(req, res) {
 	}
 };
 
-//protect middleware
-
-//role middleware
-
-
-
-//forgot password
-
-// export const forgotPassword = async (req, res) => {
-//     const { email } = req.body;
-//     try {
-
-//         const user = await User.findOne({email});
-//         if(!email) {
-//             return res.status(400).json({success: false, message: 'invalid user'})
-//         }
-
-//         const resetToken = crypto.randomBytes(20).toString('hex');
-
-//         user.passwrodResetToken = resetToken;
-//         user.passwrodResetExpires = Date.now() + 3600000; //1h
-//         await user.save();
-
-//         //send email setting with send grid
-
-//     } catch(err) {
-
-//     }
-// }
-
-
-
-//reset passwrod
-
-
-
-//update passwrod
 
 export const updatePassword = async (req, res) => {
     const { email , oldPassword, newPassword } = req.body;

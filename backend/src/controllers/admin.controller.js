@@ -5,14 +5,15 @@ import { User } from "../models/user.model.js";
 import APIFeature from "../utils/apiFeatures.js";
 
 export const createProduct = async (req, res) => {
-    const { name, description, price, category, instock } = req.body;
+    const { name, description, price, category, instock, image } = req.body;
 
     const product = await Product.create({
         name,
         description,
         price,
         category,
-        instock
+        instock,
+        image : req.file ? `/uploads/${req.file.filename}` : null
     })
 
     res.status(201).json(product)
@@ -116,7 +117,7 @@ export const getUser = async (req, res) => {
 
     try {
 
-        const user = await User.findById(id);
+        const user = await User.findById(id).select('-password');
         if(!user) {
             return res.status(404).json({success : false, message : 'no user founded'})
         }

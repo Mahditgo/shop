@@ -1,16 +1,17 @@
 import express from "express";
-import { createProduct, deleteProduct } from "../controllers/admin.controller.js";
+
 import { getAllProducts, getProduct } from "../controllers/product.controller.js";
 import { createCommentForProduct } from "../controllers/comment.controller.js";
+import { protectRoute } from "../middleware/protect.js";
 
 const router = express.Router();
 
 router
-.get('/', getAllProducts)
+.get('/', protectRoute, getAllProducts)
 .get('/:productId', getProduct)
-.post('/:productId/comments', createCommentForProduct)
-.delete('/:id', deleteProduct)
-.post('/add-product', createProduct)
+.post('/:productId/comments', protectRoute, createCommentForProduct)
+
+
 
 
 

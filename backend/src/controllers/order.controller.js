@@ -1,6 +1,6 @@
 import { Cart } from "../models/cart.mode.js";
 import { Order } from "../models/order.model.js";
-import mongoose from "mongoose";
+
 
 export const createOrder = async (req, res) => {
   try {
