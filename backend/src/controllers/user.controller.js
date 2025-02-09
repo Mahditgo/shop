@@ -1,5 +1,5 @@
 import { User } from "../models/user.model.js";
-import bcryp from 'bcrypt';
+import bcryp from 'bcryptjs';
 import nodemailer from 'nodemailer'
 import crypto from 'crypto';
 
