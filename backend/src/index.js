@@ -20,7 +20,10 @@ dotenv.config();
 
 
 
-app.use(cors());
+app.use(cors(
+    origin : "https://myresume-o48o-git-main-sinajahans-projects.vercel.app/",
+    credentials : true
+));
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
